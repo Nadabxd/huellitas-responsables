@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HuellasResponsables - Sistema de Gestión de Adopciones</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="logo">
+                <h1>🐾 HuellasResponsables</h1>
+                <p>Sistema de Gestión y Seguimiento Post-Adopción</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" required value="admin@huellitas.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" required value="admin123">
+                </div>
+                <button type="submit" class="btn btn-primary">Ingresar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="appScreen" class="screen">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">🐾 HuellasResponsables</div>
+            <div class="nav-menu">
+                <a href="#" data-module="dashboard" class="nav-link active">Dashboard</a>
+                <a href="#" data-module="mascotas" class="nav-link">Mascotas</a>
+                <a href="#" data-module="adoptantes" class="nav-link">Adoptantes</a>
+                <a href="#" data-module="seguimientos" class="nav-link">Seguimientos</a>
+                <a href="#" data-module="intervenciones" class="nav-link">Intervenciones</a>
+                <a href="#" data-module="reportes" class="nav-link">Reportes</a>
+            </div>
+            <div class="nav-user">
+                <span id="userName">Usuario</span>
+                <button id="logoutBtn" class="btn btn-sm">Salir</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Module -->
+            <div id="dashboardModule" class="module active">
+                <h2>Dashboard - Panel de Control</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🐕</div>
+                        <div class="stat-info">
+                            <h3 id="statTotalMascotas">0</h3>
+                            <p>Total Mascotas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <h3 id="statMascotasAdoptadas">0</h3>
+                            <p>Adoptadas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <h3 id="statSeguimientosActivos">0</h3>
+                            <p>Seguimientos Activos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card alert">
+                        <div class="stat-icon">⚠️</div>
+                        <div class="stat-info">
+                            <h3 id="statAlertasActivas">0</h3>
+                            <p>Alertas Activas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="statTotalAdoptantes">0</h3>
+                            <p>Adoptantes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-info">
+                            <h3 id="statAdopcionesExitosas">0</h3>
+                            <p>Adopciones Exitosas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-sections">
+                    <div class="section">
+                        <h3>⚠️ Alertas Recientes</h3>
+                        <div id="alertasList" class="alerts-list">
+                            <p class="no-data">No hay alertas activas</p>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h3>📅 Seguimientos Próximos</h3>
+                        <div id="proximosSeguimientos" class="upcoming-list">
+                            <p class="no-data">No hay seguimientos próximos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mascotas Module -->
+            <div id="mascotasModule" class="module">
+                <div class="module-header">
+                    <h2>Gestión de Mascotas</h2>
+                    <button class="btn btn-primary" onclick="showMascotaForm()">+ Nueva Mascota</button>
+                </div>
+
+                <div id="mascotaFormContainer" class="form-container hidden">
+                    <h3>Registrar Nueva Mascota</h3>
+                    <form id="mascotaForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Especie</label>
+                                <select name="especie" required>
+                                    <option value="Perro">Perro</option>
+                                    <option value="Gato">Gato</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Raza</label>
+                                <input type="text" name="raza">
+                            </div>
+                            <div class="form-group">
+                                <label>Edad (años)</label>
+                                <input type="number" name="edad" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Sexo</label>
+                                <select name="sexo">
+                                    <option value="Macho">Macho</option>
+                                    <option value="Hembra">Hembra</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Color</label>
+                                <input type="text" name="color">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Señas Particulares</label>
+                            <textarea name="senasParticulares" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideMascotaForm()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <table id="mascotasTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Especie</th>
+                                <th>Raza</th>
+                                <th>Edad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mascotasTableBody">
+                            <tr><td colspan="7" class="no-data">No hay mascotas registradas</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Adoptantes Module -->
+            <div id="adoptantesModule" class="module">
+                <div class="module-header">
+                    <h2>Gestión de Adoptantes</h2>
+                    <button class="btn btn-primary" onclick="showAdoptanteForm()">+ Nuevo Adoptante</button>
+                </div>
+
+                <div id="adoptanteFormContainer" class="form-container hidden">
+                    <h3>Registrar Nuevo Adoptante</h3>
+                    <form id="adoptanteForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nombre Completo</label>
+                                <input type="text" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Documento</label>
+                                <input type="text" name="documento" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="tel" name="telefono" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <input type="text" name="direccion" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Referencias Personales</label>
+                            <textarea name="referencias" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideAdoptanteForm()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <table id="adoptantesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Documento</th>
+                                <th>Teléfono</th>
+                                <th>Categoría</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adoptantesTableBody">
+                            <tr><td colspan="6" class="no-data">No hay adoptantes registrados</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Seguimientos Module -->
+            <div id="seguimientosModule" class="module">
+                <div class="module-header">
+                    <h2>Seguimiento Post-Adopción</h2>
+                    <button class="btn btn-primary" onclick="showSeguimientoForm()">+ Nuevo Seguimiento</button>
+                </div>
+
+                <div id="seguimientoFormContainer" class="form-container hidden">
+                    <h3>Iniciar Seguimiento de Adopción</h3>
+                    <form id="seguimientoForm">
+                        <div class="form-group">
+                            <label>Mascota</label>
+                            <select name="mascotaId" id="mascotaSelect" required>
+                                <option value="">Seleccione una mascota</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Adoptante</label>
+                            <select name="adoptanteId" id="adoptanteSelect" required>
+                                <option value="">Seleccione un adoptante</option>
+                            </select>
+                        </div>
+                        <div class="info-box">
+                            <p><strong>ℹ️ Cronograma Automático:</strong></p>
+                            <p>El sistema generará automáticamente seguimientos a los 7 días, 1 mes, 3 meses y 6 meses.</p>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Iniciar Seguimiento</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideSeguimientoForm()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="seguimientosListContainer">
+                    <div id="seguimientosList" class="seguimientos-grid">
+                        <p class="no-data">No hay seguimientos activos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intervenciones Module -->
+            <div id="intervencionesModule" class="module">
+                <div class="module-header">
+                    <h2>Control de Bienestar e Intervenciones</h2>
+                    <button class="btn btn-primary" onclick="showIntervencionForm()">+ Nueva Intervención</button>
+                </div>
+
+                <div id="intervencionFormContainer" class="form-container hidden">
+                    <h3>Registrar Nueva Intervención</h3>
+                    <form id="intervencionForm">
+                        <div class="form-group">
+                            <label>Seguimiento</label>
+                            <select name="seguimientoId" id="seguimientoIntervencionSelect" required>
+                                <option value="">Seleccione un seguimiento</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Intervención</label>
+                            <select name="tipo" required>
+                                <option value="Visita Domiciliaria">Visita Domiciliaria</option>
+                                <option value="Llamada de Atención">Llamada de Atención</option>
+                                <option value="Asesoría de Comportamiento">Asesoría de Comportamiento</option>
+                                <option value="Rescate">Rescate y Retorno</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Motivo</label>
+                            <textarea name="motivo" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Observaciones</label>
+                            <textarea name="observaciones" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                            <button type="button" class="btn btn-secondary" onclick="hideIntervencionForm()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <table id="intervencionesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Seguimiento</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="intervencionesTableBody">
+                            <tr><td colspan="6" class="no-data">No hay intervenciones registradas</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reportes Module -->
+            <div id="reportesModule" class="module">
+                <div class="module-header">
+                    <h2>Evaluación de Reportes</h2>
+                </div>
+
+                <div class="reportes-filters">
+                    <select id="reporteFilter" onchange="filterReportes()">
+                        <option value="all">Todos</option>
+                        <option value="Pendiente">Pendientes</option>
+                        <option value="Evaluado">Evaluados</option>
+                        <option value="riesgo">Con Riesgo</option>
+                    </select>
+                </div>
+
+                <div id="reportesList" class="reportes-grid">
+                    <p class="no-data">No hay reportes para evaluar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para evaluar reportes -->
+    <div id="evaluarReporteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEvaluarModal()">&times;</span>
+            <h3>Evaluar Reporte</h3>
+            <form id="evaluarReporteForm">
+                <input type="hidden" id="reporteIdEvaluar">
+                <div class="form-group">
+                    <label>Calificación</label>
+                    <select id="calificacionReporte" required>
+                        <option value="Excelente">Excelente</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Deficiente">Deficiente</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="reporteRiesgo">
+                        Marcar como Alerta de Riesgo
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Observaciones</label>
+                    <textarea id="observacionesReporte" rows="4" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Guardar Evaluación</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEvaluarModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
