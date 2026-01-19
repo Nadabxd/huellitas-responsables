@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - HuellasResponsables</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo-container">
+                    <span class="material-symbols-outlined logo-icon">pets</span>
+                    <h1>HuellasResponsables</h1>
+                </div>
+                <p class="subtitle">Sistema de Gestión y Seguimiento Post-Adopción</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="email">
+                        <span class="material-symbols-outlined">mail</span>
+                        Correo electrónico
+                    </label>
+                    <input type="email" id="email" name="email" required value="admin@huellitas.com" placeholder="Ingresa tu correo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">
+                        <span class="material-symbols-outlined">lock</span>
+                        Contraseña
+                    </label>
+                    <input type="password" id="password" name="password" required value="admin123" placeholder="Ingresa tu contraseña">
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-large">
+                    <span class="material-symbols-outlined">login</span>
+                    Ingresar al Sistema
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p>🐾 Compromiso con el bienestar animal</p>
+            </div>
+        </div>
+        
+        <div class="login-background">
+            <div class="background-shape shape-1"></div>
+            <div class="background-shape shape-2"></div>
+            <div class="background-shape shape-3"></div>
+        </div>
+    </div>
+    
+    <script src="login.js"></script>
+</body>
+</html>

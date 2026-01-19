@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adoptantes - HuellasResponsables</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <span class="material-symbols-outlined">pets</span>
+            <h2>HuellasResponsables</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="mascotas.html" class="nav-item">
+                <span class="material-symbols-outlined">pet_supplies</span>
+                <span>Mascotas</span>
+            </a>
+            <a href="adoptantes.html" class="nav-item active">
+                <span class="material-symbols-outlined">group</span>
+                <span>Adoptantes</span>
+            </a>
+            <a href="seguimientos.html" class="nav-item">
+                <span class="material-symbols-outlined">assignment</span>
+                <span>Seguimientos</span>
+            </a>
+            <a href="intervenciones.html" class="nav-item">
+                <span class="material-symbols-outlined">medical_services</span>
+                <span>Intervenciones</span>
+            </a>
+            <a href="reportes.html" class="nav-item">
+                <span class="material-symbols-outlined">description</span>
+                <span>Reportes</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <span class="material-symbols-outlined">account_circle</span>
+                <div>
+                    <p id="userName" class="user-name">Admin Centro</p>
+                    <p class="user-role">Administrador</p>
+                </div>
+            </div>
+            <button id="logoutBtn" class="btn-logout">
+                <span class="material-symbols-outlined">logout</span>
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="page-header">
+            <div>
+                <h1>Gestión de Adoptantes</h1>
+                <p class="page-subtitle">Administra los perfiles de adoptantes del centro</p>
+            </div>
+            <button class="btn btn-primary" onclick="showAdoptanteModal()">
+                <span class="material-symbols-outlined">person_add</span>
+                Nuevo Adoptante
+            </button>
+        </header>
+        
+        <div class="content-wrapper">
+            <div id="adoptantesTable" class="dashboard-card">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </main>
+    
+    <script src="common.js"></script>
+    <script>
+        // Simplified adoptantes functionality
+        let adoptantes = [];
+        
+        async function loadAdoptantes() {
+            try {
+                const response = await fetch(`${API_URL}/api/adoptantes`);
+                adoptantes = await response.json();
+                displayAdoptantes();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        function displayAdoptantes() {
+            const container = document.getElementById('adoptantesTable');
+            container.innerHTML = `
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color);">
+                            <th style="padding: 1rem; text-align: left;">Nombre</th>
+                            <th style="padding: 1rem; text-align: left;">Documento</th>
+                            <th style="padding: 1rem; text-align: left;">Teléfono</th>
+                            <th style="padding: 1rem; text-align: left;">Categoría</th>
+                            <th style="padding: 1rem; text-align: left;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${adoptantes.map(a => `
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: 1rem;">${a.nombre}</td>
+                                <td style="padding: 1rem;">${a.documento}</td>
+                                <td style="padding: 1rem;">${a.telefono}</td>
+                                <td style="padding: 1rem;">
+                                    <span class="mascota-status status-${a.categoria.toLowerCase().replace(' ', '-')}">
+                                        ${a.categoria}
+                                    </span>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <button class="btn-icon btn-icon-primary" onclick="alert('Ver detalles de ${a.nombre}')">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+        
+        function showAdoptanteModal() {
+            alert('Funcionalidad de registro de adoptantes disponible. Use la API para crear nuevos adoptantes.');
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadAdoptantes);
+    </script>
+</body>
+</html>

@@ -263,9 +263,14 @@ app.get('/api/estadisticas', (req, res) => {
   res.json(stats);
 });
 
+// Redirect root to login
+app.get('/', (req, res) => {
+  res.redirect('/login.html');
+});
+
 // Ruta para servir el frontend
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', req.path));
 });
 
 // Iniciar servidor
